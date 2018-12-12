@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Register"
+    android:orientation="vertical">
+
+     <!--상단 타이틀 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/navy">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/mButtonClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/ic_clear_grey"
+                android:tint="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/lightWhite"
+                android:textSize="16dp" />
+            <TextView
+                android:id="@+id/mPlatformTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="KR"
+                android:textAlignment="center"
+                android:textColor="@color/lightWhite"
+                android:textSize="16dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/test"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="본인의 소환사 아이디를 \n등록해 주세요."
+            android:textSize="25dp"
+            android:lines="2"
+            android:textAlignment="textStart"
+            android:textColor="@color/lightBlack"/>
+
+        <com.cielyang.android.clearableedittext.ClearableEditText
+            android:id="@+id/mEditTextRegister"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="소환사 아이디"
+            android:textSize="15dp"
+            app:clearIconDrawable="@drawable/ic_clear_grey"
+            app:clearIconDrawWhenFocused="false" />
+
+
+        <Button
+            android:id="@+id/mButtonComplete"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/navy"
+            android:textSize="16dp"
+            android:textColor="@color/lightWhite"
+            android:layout_height="60dp"
+            android:text="완료" />
+
+    </LinearLayout>
+</LinearLayout>
