@@ -20,7 +20,7 @@ import db.MySummonerDAO;
 import riot.League;
 import riot.Summoner;
 
-public class Register extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView platformTextView;
     ImageView closeTab;
@@ -29,6 +29,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     Platform platform;
 
     MySummonerDAO mySummonerDB;
+    MainActivity.MyCallBack callBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,5 +133,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy(){
+            super.onDestroy();
+        callBack = MainActivity.mCallback;
+        callBack.refreshMainActivity();
     }
 }

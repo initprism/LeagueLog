@@ -1,12 +1,16 @@
 package initprism.leaguelog;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -32,6 +36,8 @@ public class PlatformSheetDialog extends BottomSheetDialogFragment implements Vi
 
     TextView platformTextView;
     AtomicReference<Platform> platform;
+    private View bottomSheet;
+    private float slideOffset;
 
     public PlatformSheetDialog() {
 
@@ -48,7 +54,6 @@ public class PlatformSheetDialog extends BottomSheetDialogFragment implements Vi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.platform_dialog, container, false);
-        this.getDialog().setCanceledOnTouchOutside(false);
 
         korea = (RelativeLayout) view.findViewById(R.id.korea);
         japan = (RelativeLayout) view.findViewById(R.id.japan);
@@ -74,7 +79,6 @@ public class PlatformSheetDialog extends BottomSheetDialogFragment implements Vi
 
         return view;
     }
-
 
     @Override
     public void onClick(View view) {
@@ -121,6 +125,12 @@ public class PlatformSheetDialog extends BottomSheetDialogFragment implements Vi
                 platform.set(Platform.OCE);
                 break;
         }
+        dismiss();
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog){
+        super.onCancel(dialog);
         dismiss();
     }
 }

@@ -1,11 +1,12 @@
 package initprism.leaguelog;
 
 import android.content.DialogInterface;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,15 @@ import misc.OnSingleClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
+    /*--------CALL BACK METHOD--------*/
+    public interface MyCallBack {
+        void refreshMainActivity();
+    }
+
+    public static MyCallBack mCallback;
+    /*--------CALL BACK METHOD--------*/
+
+    EditText summonerSearch;
     TextView platformTextView;
 
     AtomicReference<Platform> platform = new AtomicReference<Platform>(Platform.KR);
@@ -38,14 +48,13 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        summonerSearch = (EditText) findViewById(R.id.mSummonerSearch);
         platformTextView = (TextView) findViewById(R.id.mPlatformTextView);
         dialog = new PlatformSheetDialog(platformTextView, platform);
 
-
-
-
         mySummonerDAO = new MySummonerDAO(this);
         MySummoner mySummoner = mySummonerDAO.getSummoner(platform.get().getName());
+
         if (mySummoner == null) {
             fragment_register = new Fragment_register();
             bundle = new Bundle(1);
@@ -61,28 +70,49 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), mySummoner.getName(), Toast.LENGTH_SHORT).show();
         }
 
+        summonerSearch.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         platformTextView.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                switch (v.getId()) {
-                    case R.id.mPlatformTextView:
-                        dialog.showNow(getSupportFragmentManager(), "bottomSheet");
-                        dialog.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                fragment_register = new Fragment_register();
-                                bundle.putString("platform", platform.get().getName());
-                                fragment_register.setArguments(bundle);
-                                getSupportFragmentManager().beginTransaction().replace(R.id.mUserInfo, fragment_register).commitNow();
-                            }
-                        });
-                        break;
-                }
+                dialog.showNow(getSupportFragmentManager(), "bottomSheet");
+                dialog.getDialog().setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        mCallback.refreshMainActivity();
+                    }
+                });
             }
         });
 
+
+        /*--------CALL BACK METHOD--------*/
+        mCallback = new MyCallBack() {
+            @Override
+            public void refreshMainActivity() {
+                MySummoner mySummoner = mySummonerDAO.getSummoner(platform.get().getName());
+                if (mySummoner == null) {
+                    fragment_register = new Fragment_register();
+                    bundle = new Bundle(1);
+                    bundle.putString("platform", platform.get().getName());
+                    fragment_register.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.mUserInfo, fragment_register).commitNow();
+                } else {
+                    fragment_mySummoner = new Fragment_mySummoner();
+                    bundle = new Bundle(1);
+                    bundle.putSerializable("mySummoner", mySummoner);
+                    fragment_mySummoner.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.mUserInfo, fragment_mySummoner).commitNow();
+                }
+            }
+        };
+        /*--------CALL BACK METHOD--------*/
     }
-
-
 }

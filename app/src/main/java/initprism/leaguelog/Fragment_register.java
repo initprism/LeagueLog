@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import misc.OnSingleClickListener;
 
@@ -32,7 +31,7 @@ public class Fragment_register extends Fragment{
         register.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent intent = new Intent(context, Register.class);
+                Intent intent = new Intent(context, RegisterActivity.class);
                 intent.putExtra("platform", platform);
                 startActivity(intent);
             }

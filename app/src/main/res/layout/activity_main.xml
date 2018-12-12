@@ -11,21 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/navy">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="리그 오브 레전드"
+                android:text="LEAGUE LOG"
                 android:textColor="@color/lightWhite"
                 android:textSize="16dp" />
+
             <TextView
                 android:id="@+id/mPlatformTextView"
                 android:layout_width="wrap_content"
@@ -38,18 +40,50 @@
         </RelativeLayout>
     </LinearLayout>
 
+    <!--검색 바 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#243a4f"
+        android:layout_marginBottom="3dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/mSummonerSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_summoner_box"
+            android:drawableEnd="@drawable/ic_glass"
+            android:drawableTint="@color/navy"
+            android:hint="소환사 검색"
+            android:editable="false"
+            android:paddingBottom="8dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/mUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:orientation="vertical">
+
         <FrameLayout
             android:id="@+id/mUserInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-        </FrameLayout>
+            android:layout_weight="1"></FrameLayout>
     </LinearLayout>
 
 

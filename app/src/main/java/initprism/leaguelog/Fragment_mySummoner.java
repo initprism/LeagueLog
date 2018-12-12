@@ -21,16 +21,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import db.MySummoner;
+import db.MySummonerDAO;
 import de.hdodenhof.circleimageview.CircleImageView;
 import misc.OnSingleClickListener;
 import riot.Util;
 
-public class Fragment_mySummoner extends Fragment{
+public class Fragment_mySummoner extends Fragment {
 
 
-    public Fragment_mySummoner(){
+    public Fragment_mySummoner() {
     }
-
 
     CircleImageView mSummonerIcon;
     TextView mSummonerLevel;
@@ -41,11 +41,17 @@ public class Fragment_mySummoner extends Fragment{
     TextView mSummonerLp;
     TextView mSummonerRecord;
 
+    MySummoner mySummoner;
+    MySummonerDAO mySummonerDAO;
+
+    MainActivity.MyCallBack callBack;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mysummoner, container, false);
 
         Util util = new Util();
+        mySummonerDAO = new MySummonerDAO(view.getContext());
 
         mSummonerIcon = (CircleImageView) view.findViewById(R.id.mSummonerIcon);
         mSummonerLevel = (TextView) view.findViewById(R.id.mSummonerLevel);
@@ -56,10 +62,10 @@ public class Fragment_mySummoner extends Fragment{
         mSummonerLp = (TextView) view.findViewById(R.id.mSummonerLp);
         mSummonerRecord = (TextView) view.findViewById(R.id.mSummonerRecord);
 
-        MySummoner mySummoner = (MySummoner) getArguments().getSerializable("mySummoner");
-        URL url = null;
+        mySummoner = (MySummoner) getArguments().getSerializable("mySummoner");
+
         try {
-            url = new URL(util.getProfileIconURL() + mySummoner.getProfileIcon() + ".png");
+            URL url = new URL(util.getProfileIconURL() + mySummoner.getProfileIcon() + ".png");
             Bitmap bitmap = BitmapFactory.decodeStream(url.openStream());
             mSummonerIcon.setImageBitmap(bitmap);
         } catch (Exception e) {
@@ -67,8 +73,6 @@ public class Fragment_mySummoner extends Fragment{
             mSummonerIcon.setImageResource(R.drawable.testicon);
         }
 
-        mSummonerLevel.setText(mySummoner.getLevel());
-        mSummonerId.setText(mySummoner.getName());
 
         switch (mySummoner.getTier().toLowerCase()) {
             case "iron":
@@ -103,20 +107,37 @@ public class Fragment_mySummoner extends Fragment{
                 break;
         }
 
-        mSummonerTier.setText(" " + mySummoner.getTierInfo());
-        mSummonerLp.setText(" (" + mySummoner.getLp() + "LP)");
-        mSummonerRecord.setText(mySummoner.getWins() + "승 " + mySummoner.getLosses() + "패 / " + "(" + mySummoner.getAvr() +"%)");
 
+        mSummonerLevel.setText(mySummoner.getLevel());
+        mSummonerId.setText(mySummoner.getName());
+        mSummonerTier.setText(" " + mySummoner.getTierInfo());
+        if (mySummoner.getTier().equals("unranked")) {
+            mSummonerLp.setText("");
+            mSummonerRecord.setText("");
+        } else {
+            mSummonerLp.setText(" (" + mySummoner.getLp() + "LP)");
+            mSummonerRecord.setText(mySummoner.getWins() + "승 " + mySummoner.getLosses() + "패 / " + "(" + mySummoner.getAvr() + "%)");
+        }
+
+        mRemoveMySummoner.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                mySummonerDAO.deleteSummoner(mySummoner);
+                callBack = MainActivity.mCallback;
+                callBack.refreshMainActivity();
+            }
+        });
 
         return view;
     }
+
     @Override
     public void onStart() {
         super.onStart();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
     }
 
