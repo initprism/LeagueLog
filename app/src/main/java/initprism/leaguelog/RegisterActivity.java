@@ -15,8 +15,8 @@ import com.cielyang.android.clearableedittext.ClearableEditText;
 
 import net.rithms.riot.constant.Platform;
 
-import db.MySummoner;
-import db.MySummonerDAO;
+import db.MySummonerDTO;
+import db.SummonerDAO;
 import riot.League;
 import riot.Summoner;
 
@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     Button completeButton;
     Platform platform;
 
-    MySummonerDAO mySummonerDB;
+    SummonerDAO mySummonerDB;
     MainActivity.MyCallBack callBack;
 
     @Override
@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        mySummonerDB = new MySummonerDAO(this);
+        mySummonerDB = new SummonerDAO(this);
 
         Intent intent = getIntent();
         String pf = intent.getStringExtra("platform").toUpperCase();
@@ -91,14 +91,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         protected void onPostExecute(String name) {
             super.onPostExecute(name);
             Summoner summoner = new Summoner(platform, name);
-            League league = new League(summoner);
 
             if(summoner.getSummoner() == null){
                 Toast.makeText(getApplicationContext(), "소환사 이름을 확인해 주세요", Toast.LENGTH_SHORT).show();
                 return;
             }else{
-                Toast.makeText(getApplicationContext(), "complete", Toast.LENGTH_SHORT).show();
-                mySummonerDB.addSummoner(new MySummoner(
+                League league = new League(summoner);
+                mySummonerDB.addMySummoner(new MySummonerDTO(
                         summoner.getPlatform().getName(),
                         summoner.getName(),
                         String.valueOf(summoner.getSummonerLevel()),

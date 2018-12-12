@@ -30,7 +30,7 @@
             android:tint="@color/white" />
 
         <EditText
-            android:id="@+id/summonerSearch"
+            android:id="@+id/mSummonerSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"

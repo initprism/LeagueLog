@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import initprism.leaguelog.MainActivity;
 
-public class MySummoner implements Serializable {
+public class MySummonerDTO implements Serializable {
 
     String platform;
     String name;
@@ -17,9 +17,9 @@ public class MySummoner implements Serializable {
     String avr;
     String profileIcon;
 
-    public MySummoner(){}
+    public MySummonerDTO(){}
 
-    public MySummoner(String platform, String name, String level, String tier, String tierInfo, String lp, String wins, String losses, String avr, String profileIcon) {
+    public MySummonerDTO(String platform, String name, String level, String tier, String tierInfo, String lp, String wins, String losses, String avr, String profileIcon) {
         this.platform = platform;
         this.name = name;
         this.level = level;

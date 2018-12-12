@@ -14,8 +14,8 @@ import net.rithms.riot.constant.Platform;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import db.MySummoner;
-import db.MySummonerDAO;
+import db.MySummonerDTO;
+import db.SummonerDAO;
 import misc.OnSingleClickListener;
 
 
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     PlatformSheetDialog dialog;
     Bundle bundle;
 
-    MySummonerDAO mySummonerDAO;
+    SummonerDAO summonerDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
         platformTextView = (TextView) findViewById(R.id.mPlatformTextView);
         dialog = new PlatformSheetDialog(platformTextView, platform);
 
-        mySummonerDAO = new MySummonerDAO(this);
-        MySummoner mySummoner = mySummonerDAO.getSummoner(platform.get().getName());
+        summonerDAO = new SummonerDAO(this);
+        MySummonerDTO mySummonerDTO = summonerDAO.getMySummoner(platform.get().getName());
 
-        if (mySummoner == null) {
+        if (mySummonerDTO == null) {
             fragment_register = new Fragment_register();
             bundle = new Bundle(1);
             bundle.putString("platform", platform.get().getName());
@@ -64,16 +64,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             fragment_mySummoner = new Fragment_mySummoner();
             bundle = new Bundle(1);
-            bundle.putSerializable("mySummoner", mySummoner);
+            bundle.putSerializable("mySummonerDTO", mySummonerDTO);
             fragment_mySummoner.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.mUserInfo, fragment_mySummoner).commitNow();
-            Toast.makeText(getApplicationContext(), mySummoner.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), mySummonerDTO.getName(), Toast.LENGTH_SHORT).show();
         }
 
         summonerSearch.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent.putExtra("platform", platform.get());
                 startActivity(intent);
             }
         });
@@ -97,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
         mCallback = new MyCallBack() {
             @Override
             public void refreshMainActivity() {
-                MySummoner mySummoner = mySummonerDAO.getSummoner(platform.get().getName());
-                if (mySummoner == null) {
+                MySummonerDTO mySummonerDTO = summonerDAO.getMySummoner(platform.get().getName());
+                if (mySummonerDTO == null) {
                     fragment_register = new Fragment_register();
                     bundle = new Bundle(1);
                     bundle.putString("platform", platform.get().getName());
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     fragment_mySummoner = new Fragment_mySummoner();
                     bundle = new Bundle(1);
-                    bundle.putSerializable("mySummoner", mySummoner);
+                    bundle.putSerializable("mySummonerDTO", mySummonerDTO);
                     fragment_mySummoner.setArguments(bundle);
                     getSupportFragmentManager().beginTransaction().replace(R.id.mUserInfo, fragment_mySummoner).commitNow();
                 }
