@@ -8,11 +8,15 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.rithms.riot.constant.Platform;
+
+import java.util.List;
 
 import db.HistorySummonerDTO;
 import db.SummonerDAO;
@@ -27,6 +31,7 @@ public class SearchActivity extends AppCompatActivity {
     EditText summonerSearch;
 
     SummonerDAO summonerDAO;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -110,15 +115,31 @@ public class SearchActivity extends AppCompatActivity {
                 return;
             } else {
                 League league = new League(summoner);
-                summonerDAO.addHistorySummoner(new HistorySummonerDTO(
-                        summoner.getPlatform().getName(),
-                        summoner.getName(),
-                        league.getSoloRank(),
-                        league.getSoloRankInfo(),
-                        String.valueOf(summoner.getProfileIconId())
-                ));
-                Toast.makeText(getApplicationContext(), summoner.getName(), Toast.LENGTH_SHORT).show();
+
+                //HISTORY DB INSERT
+                if (summonerDAO.getHistorySummoner(summoner.getName(), platform.getName()) != null) {
+                    summonerDAO.updateHistorySummoner(new HistorySummonerDTO(
+                            summoner.getPlatform().getName(),
+                            summoner.getName(),
+                            league.getSoloRank(),
+                            league.getSoloRankInfo(),
+                            String.valueOf(summoner.getProfileIconId())
+                    ));
+
+                    Toast.makeText(getApplicationContext(), "update", Toast.LENGTH_SHORT).show();
+                }else {
+                    summonerDAO.addHistorySummoner(new HistorySummonerDTO(
+                            summoner.getPlatform().getName(),
+                            summoner.getName(),
+                            league.getSoloRank(),
+                            league.getSoloRankInfo(),
+                            String.valueOf(summoner.getProfileIconId())
+                    ));
+                    Toast.makeText(getApplicationContext(), "add", Toast.LENGTH_SHORT).show();
+                }
+
             }
+
         }
     }
 }

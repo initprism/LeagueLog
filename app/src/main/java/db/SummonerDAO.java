@@ -246,7 +246,31 @@ public class SummonerDAO extends SQLiteOpenHelper {
         return historySummonerDTO;
     }
 
-    // 모든 Contact 정보 가져오기
+    //name,pf 에 해당하는 HistorySummoner 객체 가져오기
+    public HistorySummonerDTO getHistorySummoner(String name, String platform) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_HISTORYSUMMONER, new String[]{KEY_PLATFORM,
+                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON}, KEY_NAME + "=? AND " + KEY_PLATFORM + " =?",
+                new String[]{name, platform}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        if (cursor.getCount() == 0)
+            return null;
+
+
+        HistorySummonerDTO historySummonerDTO = new HistorySummonerDTO(
+                cursor.getString(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4));
+        // return contact
+        return historySummonerDTO;
+    }
+
+    // 모든 HistorySummoner 정보 가져오기
     public List<HistorySummonerDTO> getAllHistorySummoners() {
         List<HistorySummonerDTO> SummonerList = new ArrayList<HistorySummonerDTO>();
         // Select All Query
@@ -261,9 +285,9 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 HistorySummonerDTO summoner = new HistorySummonerDTO();
                 summoner.setPlatform(cursor.getString(0));
                 summoner.setName(cursor.getString(1));
-                summoner.setTier(cursor.getString(3));
-                summoner.setTierInfo(cursor.getString(4));
-                summoner.setProfileIcon(cursor.getString(9));
+                summoner.setTier(cursor.getString(2));
+                summoner.setTierInfo(cursor.getString(3));
+                summoner.setProfileIcon(cursor.getString(4));
                 // Adding contact to list
                 SummonerList.add(summoner);
             } while (cursor.moveToNext());
@@ -285,8 +309,8 @@ public class SummonerDAO extends SQLiteOpenHelper {
         values.put(KEY_PROFILEICON, historySummonerDTO.getProfileIcon());
 
         // updating row
-        return db.update(TABLE_HISTORYSUMMONER, values, KEY_NAME + " = ?",
-                new String[]{String.valueOf(historySummonerDTO.getPlatform())});
+        return db.update(TABLE_HISTORYSUMMONER, values, KEY_NAME + " = ? and " + KEY_PLATFORM + "=?",
+                new String[]{historySummonerDTO.getName(), historySummonerDTO.getPlatform()});
     }
 
     // Contact 정보 삭제하기
