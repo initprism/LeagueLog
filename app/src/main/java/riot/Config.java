@@ -7,7 +7,7 @@ public class Config {
 
     private ApiConfig config;
     private RiotApi api;
-    private String key = "RGAPI-ce46922f-2084-4697-a686-bb814f83e0a2";
+    private String key = "RGAPI-cad605cb-1e09-4dde-9383-f366658a5b2f";
 
     public Config() {
         config = new ApiConfig().setKey(key);

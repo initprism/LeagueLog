@@ -60,7 +60,7 @@
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:background="@drawable/search_summoner_box"
-            android:drawableEnd="@drawable/ic_glass"
+            android:drawableEnd="@drawable/search"
             android:drawableTint="@color/navy"
             android:hint="소환사 검색"
             android:editable="false"

@@ -1,26 +1,23 @@
 package db;
 
 import java.io.Serializable;
-import java.lang.annotation.Retention;
 
-public class HistorySummonerDTO implements Serializable {
+public class BookmarkSummonerDTO implements Serializable {
 
     String platform;
     String name;
     String tier;
     String tierInfo;
     String profileIcon;
-    String bookmark;
 
-    public HistorySummonerDTO(){}
+    public BookmarkSummonerDTO(){}
 
-    public HistorySummonerDTO(String platform, String name, String tier, String tierInfo, String profileIcon, String bookmark) {
+    public BookmarkSummonerDTO(String platform, String name, String tier, String tierInfo, String profileIcon) {
         this.platform = platform;
         this.name = name;
         this.tier = tier;
         this.tierInfo = tierInfo;
         this.profileIcon = profileIcon;
-        this.bookmark = bookmark;
     }
 
     public String getPlatform() {
@@ -59,11 +56,6 @@ public class HistorySummonerDTO implements Serializable {
 
     public void setProfileIcon(String profileIcon) {this.profileIcon = profileIcon; }
 
-    public String getBookmark() {
-        return bookmark;
-    }
-
-    public void setBookmark(String bookmark) {this.bookmark = bookmark;}
 }
 
 

@@ -30,5 +30,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.github.taycaldwell:riot-api-java:4.1.0'
     implementation 'com.github.Cielsk:clearable-edittext:0.0.5'
-
+    implementation 'com.github.Omega-R:OmegaRecyclerView:1.7.6@aar'
 }

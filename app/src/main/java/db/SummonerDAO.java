@@ -22,6 +22,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
     // Bookmarks table name
     private static final String TABLE_MYSUMMONER = "mySummoner";
     private static final String TABLE_HISTORYSUMMONER = "historySummoner";
+    private static final String TABLE_BOOKMARKSUMMONER = "bookmarkSummoner";
 
     //Table Columns names
     private static final String KEY_PLATFORM = "platform";
@@ -34,6 +35,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
     private static final String KEY_LOSS = "losses";
     private static final String KEY_AVR = "avr";
     private static final String KEY_PROFILEICON = "profileIcon";
+    private static final String KEY_BOOKMARK = "bookmark";
 
     public SummonerDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -60,10 +62,20 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 + KEY_TIER + " TEXT,"
                 + KEY_TIERINFO + " TEXT,"
                 + KEY_PROFILEICON + " TEXT,"
+                + KEY_BOOKMARK + " TEXT,"
+                + " PRIMARY KEY (" + KEY_NAME + ", " + KEY_PLATFORM + "))";
+
+        String CREATE_BOOKMARKSUMMONER_TABLE = "CREATE TABLE " + TABLE_BOOKMARKSUMMONER + "("
+                + KEY_PLATFORM + " TEXT,"
+                + KEY_NAME + " TEXT,"
+                + KEY_TIER + " TEXT,"
+                + KEY_TIERINFO + " TEXT,"
+                + KEY_PROFILEICON + " TEXT,"
                 + " PRIMARY KEY (" + KEY_NAME + ", " + KEY_PLATFORM + "))";
 
         db.execSQL(CREATE_MYSUMMONER_TABLE);
         db.execSQL(CREATE_HISTORYSUMMONER_TABLE);
+        db.execSQL(CREATE_BOOKMARKSUMMONER_TABLE);
     }
 
     // Upgrading database
@@ -72,6 +84,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MYSUMMONER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORYSUMMONER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BOOKMARKSUMMONER);
 
         // Create tables again
         onCreate(db);
@@ -217,6 +230,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         values.put(KEY_TIER, historySummonerDTO.getTier());
         values.put(KEY_TIERINFO, historySummonerDTO.getTierInfo());
         values.put(KEY_PROFILEICON, historySummonerDTO.getProfileIcon());
+        values.put(KEY_BOOKMARK, historySummonerDTO.getBookmark());
 
         // Inserting Row
         db.insert(TABLE_HISTORYSUMMONER, null, values);
@@ -228,7 +242,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HISTORYSUMMONER, new String[]{KEY_PLATFORM,
-                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON}, KEY_NAME + "=?",
+                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON, KEY_BOOKMARK}, KEY_NAME + "=?",
                 new String[]{String.valueOf(name)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -241,7 +255,8 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getString(3),
-                cursor.getString(4));
+                cursor.getString(4),
+                cursor.getString(5));
         // return contact
         return historySummonerDTO;
     }
@@ -251,7 +266,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HISTORYSUMMONER, new String[]{KEY_PLATFORM,
-                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON}, KEY_NAME + "=? AND " + KEY_PLATFORM + " =?",
+                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON, KEY_BOOKMARK}, KEY_NAME + "=? AND " + KEY_PLATFORM + " =?",
                 new String[]{name, platform}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -265,14 +280,15 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getString(3),
-                cursor.getString(4));
+                cursor.getString(4),
+                cursor.getString(5));
         // return contact
         return historySummonerDTO;
     }
 
     // 모든 HistorySummoner 정보 가져오기
-    public List<HistorySummonerDTO> getAllHistorySummoners() {
-        List<HistorySummonerDTO> SummonerList = new ArrayList<HistorySummonerDTO>();
+    public ArrayList<HistorySummonerDTO> getAllHistorySummoners() {
+        ArrayList<HistorySummonerDTO> SummonerList = new ArrayList<HistorySummonerDTO>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_HISTORYSUMMONER;
 
@@ -288,6 +304,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 summoner.setTier(cursor.getString(2));
                 summoner.setTierInfo(cursor.getString(3));
                 summoner.setProfileIcon(cursor.getString(4));
+                summoner.setBookmark(cursor.getString(5));
                 // Adding contact to list
                 SummonerList.add(summoner);
             } while (cursor.moveToNext());
@@ -297,7 +314,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         return SummonerList;
     }
 
-    //Contact 정보 업데이트
+    //historySummoner 정보 업데이트
     public int updateHistorySummoner(HistorySummonerDTO historySummonerDTO) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -307,23 +324,193 @@ public class SummonerDAO extends SQLiteOpenHelper {
         values.put(KEY_TIER, historySummonerDTO.getTier());
         values.put(KEY_TIERINFO, historySummonerDTO.getTierInfo());
         values.put(KEY_PROFILEICON, historySummonerDTO.getProfileIcon());
+        values.put(KEY_BOOKMARK, historySummonerDTO.getBookmark());
 
         // updating row
         return db.update(TABLE_HISTORYSUMMONER, values, KEY_NAME + " = ? and " + KEY_PLATFORM + "=?",
                 new String[]{historySummonerDTO.getName(), historySummonerDTO.getPlatform()});
     }
 
-    // Contact 정보 삭제하기
+    //historySummoner 정보 갱신
+    public void replaceHistorySummoner(HistorySummonerDTO historySummonerDTO) {
+
+        deleteHistorySummoner(historySummonerDTO);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PLATFORM, historySummonerDTO.getPlatform());
+        values.put(KEY_NAME, historySummonerDTO.getName());
+        values.put(KEY_TIER, historySummonerDTO.getTier());
+        values.put(KEY_TIERINFO, historySummonerDTO.getTierInfo());
+        values.put(KEY_PROFILEICON, historySummonerDTO.getProfileIcon());
+        values.put(KEY_BOOKMARK, historySummonerDTO.getBookmark());
+
+        // updating row
+         // Inserting Row
+        db.insert(TABLE_HISTORYSUMMONER, null, values);
+        db.close(); // Closing database connection
+    }
+
+    // historySummoner 정보 삭제하기
     public void deleteHistorySummoner(HistorySummonerDTO historySummonerDTO) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_HISTORYSUMMONER, KEY_NAME + " = ?",
-                new String[]{String.valueOf(historySummonerDTO.getName())});
+        db.delete(TABLE_HISTORYSUMMONER, KEY_NAME + " = ? and " + KEY_PLATFORM + " = ?",
+                new String[]{historySummonerDTO.getName(), historySummonerDTO.getPlatform()});
         db.close();
     }
 
     // Contact 정보 숫자
     public int getHistorySummonerCount() {
         String countQuery = "SELECT  * FROM " + TABLE_HISTORYSUMMONER;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+        // return count
+        return cursor.getCount();
+    }
+      /**
+     * BookmarkSummoner CRUD
+     */
+
+    // 새로운 BookmarkSummonerDTO 함수 추가
+    public void addBookmarkSummoner(BookmarkSummonerDTO bookmarkSummonerDTO) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PLATFORM, bookmarkSummonerDTO.getPlatform());
+        values.put(KEY_NAME, bookmarkSummonerDTO.getName());
+        values.put(KEY_TIER, bookmarkSummonerDTO.getTier());
+        values.put(KEY_TIERINFO, bookmarkSummonerDTO.getTierInfo());
+        values.put(KEY_PROFILEICON, bookmarkSummonerDTO.getProfileIcon());
+
+        // Inserting Row
+        db.insert(TABLE_BOOKMARKSUMMONER, null, values);
+        db.close(); // Closing database connection
+    }
+
+    //name 에 해당하는 BookmarkSummoner 객체 가져오기
+    public BookmarkSummonerDTO getBookmarkSummoner(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_BOOKMARKSUMMONER, new String[]{KEY_PLATFORM,
+                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON}, KEY_NAME + "=?",
+                new String[]{String.valueOf(name)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        if (cursor.getCount() == 0)
+            return null;
+
+        BookmarkSummonerDTO bookmarkSummonerDTO = new BookmarkSummonerDTO(
+                cursor.getString(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4));
+        // return contact
+        return bookmarkSummonerDTO;
+    }
+
+    //name,pf 에 해당하는 BookmarkSummoner 객체 가져오기
+    public BookmarkSummonerDTO getBookmarkSummoner(String name, String platform) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_BOOKMARKSUMMONER, new String[]{KEY_PLATFORM,
+                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON}, KEY_NAME + "=? AND " + KEY_PLATFORM + " =?",
+                new String[]{name, platform}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        if (cursor.getCount() == 0)
+            return null;
+
+
+        BookmarkSummonerDTO bookmarkSummonerDTO = new BookmarkSummonerDTO(
+                cursor.getString(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4));
+        // return contact
+        return bookmarkSummonerDTO;
+    }
+
+    // 모든 BookmarkSummoner 정보 가져오기
+    public ArrayList<BookmarkSummonerDTO> getAllBookmarkSummoners() {
+        ArrayList<BookmarkSummonerDTO> SummonerList = new ArrayList<BookmarkSummonerDTO>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_BOOKMARKSUMMONER;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                BookmarkSummonerDTO summoner = new BookmarkSummonerDTO();
+                summoner.setPlatform(cursor.getString(0));
+                summoner.setName(cursor.getString(1));
+                summoner.setTier(cursor.getString(2));
+                summoner.setTierInfo(cursor.getString(3));
+                summoner.setProfileIcon(cursor.getString(4));
+                // Adding contact to list
+                SummonerList.add(summoner);
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return SummonerList;
+    }
+
+    //BookmarkSummoner 정보 업데이트
+    public int updateBookmarkSummoner(BookmarkSummonerDTO bookmarkSummonerDTO) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PLATFORM, bookmarkSummonerDTO.getPlatform());
+        values.put(KEY_NAME, bookmarkSummonerDTO.getName());
+        values.put(KEY_TIER, bookmarkSummonerDTO.getTier());
+        values.put(KEY_TIERINFO, bookmarkSummonerDTO.getTierInfo());
+        values.put(KEY_PROFILEICON, bookmarkSummonerDTO.getProfileIcon());
+
+        // updating row
+        return db.update(TABLE_BOOKMARKSUMMONER, values, KEY_NAME + " = ? and " + KEY_PLATFORM + "=?",
+                new String[]{bookmarkSummonerDTO.getName(), bookmarkSummonerDTO.getPlatform()});
+    }
+
+    //BookmarkSummoner 정보 갱신
+    public void replaceBookmarkSummoner(BookmarkSummonerDTO bookmarkSummonerDTO) {
+
+        deleteBookmarkSummoner(bookmarkSummonerDTO);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PLATFORM, bookmarkSummonerDTO.getPlatform());
+        values.put(KEY_NAME, bookmarkSummonerDTO.getName());
+        values.put(KEY_TIER, bookmarkSummonerDTO.getTier());
+        values.put(KEY_TIERINFO, bookmarkSummonerDTO.getTierInfo());
+        values.put(KEY_PROFILEICON, bookmarkSummonerDTO.getProfileIcon());
+
+        // updating row
+         // Inserting Row
+        db.insert(TABLE_BOOKMARKSUMMONER, null, values);
+        db.close(); // Closing database connection
+    }
+
+    // BookmarkSummoner 정보 삭제하기
+    public void deleteBookmarkSummoner(BookmarkSummonerDTO bookmarkSummonerDTO) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_BOOKMARKSUMMONER, KEY_NAME + " = ? and " + KEY_PLATFORM + " = ?",
+                new String[]{bookmarkSummonerDTO.getName(), bookmarkSummonerDTO.getPlatform()});
+        db.close();
+    }
+
+    // Contact 정보 숫자
+    public int getBookmarkSummonerCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_BOOKMARKSUMMONER;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();

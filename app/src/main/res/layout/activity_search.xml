@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".SearchActivity">
 
@@ -11,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
         android:background="#243a4f"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -40,7 +40,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/search_summoner_box"
-            android:drawableEnd="@drawable/ic_glass"
+            android:drawableEnd="@drawable/search"
             android:drawableTint="@color/navy"
             android:hint="소환사 검색"
             android:paddingBottom="8dp"
@@ -50,10 +50,48 @@
             android:textSize="16dp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/test2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="null"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="최근 검색 "
+            android:textColor="@color/navy"
+            android:textSize="24dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:background="@color/lightWhite">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+
+            <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
+                android:id="@+id/mHistoryRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/navy"
+                app:dividerPadding="16dp"
+                android:dividerHeight="1dp"
+                app:itemSpace="0dp"
+                app:layoutManager="LinearLayoutManager"
+                app:showDivider="middle" />
+
+
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

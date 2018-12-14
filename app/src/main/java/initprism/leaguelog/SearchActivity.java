@@ -5,18 +5,20 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.omega_r.libs.omegarecyclerview.OmegaRecyclerView;
 
 import net.rithms.riot.constant.Platform;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import db.HistorySummonerDTO;
 import db.SummonerDAO;
@@ -25,6 +27,14 @@ import riot.League;
 import riot.Summoner;
 
 public class SearchActivity extends AppCompatActivity {
+    /*--------CALL BACK METHOD--------*/
+    public interface MyCallBack {
+        void refreshSearchActivity();
+    }
+
+    public static MyCallBack mCallback;
+    /*--------CALL BACK METHOD--------*/
+
     Platform platform;
 
     ImageView buttonClose;
@@ -32,6 +42,10 @@ public class SearchActivity extends AppCompatActivity {
 
     SummonerDAO summonerDAO;
 
+    OmegaRecyclerView omegaRecyclerView;
+    OmegaRecyclerView.LayoutManager mLayoutManager;
+
+    HistoryAdapter myAdapter;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -47,6 +61,14 @@ public class SearchActivity extends AppCompatActivity {
         buttonClose = (ImageView) findViewById(R.id.mButtonClose);
         summonerSearch = (EditText) findViewById(R.id.mSummonerSearch);
 
+        omegaRecyclerView = findViewById(R.id.mHistoryRecycler);
+        mLayoutManager = new LinearLayoutManager(this);
+        omegaRecyclerView.setLayoutManager(mLayoutManager);
+
+        ArrayList<HistorySummonerDTO> HistorySummoners = summonerDAO.getAllHistorySummoners();
+        Collections.reverse(HistorySummoners);
+        myAdapter = new HistoryAdapter(HistorySummoners);
+        omegaRecyclerView.setAdapter(myAdapter);
 
         //touch icon
         summonerSearch.setOnTouchListener(new View.OnTouchListener() {
@@ -95,6 +117,18 @@ public class SearchActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        /*--------CALL BACK METHOD--------*/
+        mCallback = new MyCallBack() {
+            @Override
+            public void refreshSearchActivity() {
+                ArrayList<HistorySummonerDTO> HistorySummoners = summonerDAO.getAllHistorySummoners();
+                Collections.reverse(HistorySummoners);
+                myAdapter = new HistoryAdapter(HistorySummoners);
+                omegaRecyclerView.setAdapter(myAdapter);
+            }
+        };
+        /*--------CALL BACK METHOD--------*/
     }
 
     public class AsyncTaskSearch extends AsyncTask<String, Void, String> {
@@ -118,28 +152,53 @@ public class SearchActivity extends AppCompatActivity {
 
                 //HISTORY DB INSERT
                 if (summonerDAO.getHistorySummoner(summoner.getName(), platform.getName()) != null) {
-                    summonerDAO.updateHistorySummoner(new HistorySummonerDTO(
-                            summoner.getPlatform().getName(),
-                            summoner.getName(),
-                            league.getSoloRank(),
-                            league.getSoloRankInfo(),
-                            String.valueOf(summoner.getProfileIconId())
-                    ));
 
-                    Toast.makeText(getApplicationContext(), "update", Toast.LENGTH_SHORT).show();
-                }else {
-                    summonerDAO.addHistorySummoner(new HistorySummonerDTO(
-                            summoner.getPlatform().getName(),
-                            summoner.getName(),
-                            league.getSoloRank(),
-                            league.getSoloRankInfo(),
-                            String.valueOf(summoner.getProfileIconId())
-                    ));
-                    Toast.makeText(getApplicationContext(), "add", Toast.LENGTH_SHORT).show();
+                    if(summonerDAO.getBookmarkSummoner(summoner.getName(), platform.getName()) != null)
+                        summonerDAO.replaceHistorySummoner(new HistorySummonerDTO(
+                                summoner.getPlatform().getName(),
+                                summoner.getName(),
+                                league.getSoloRank(),
+                                league.getSoloRankInfo(),
+                                String.valueOf(summoner.getProfileIconId()),
+                                "y"
+                        ));
+                    else
+                        summonerDAO.replaceHistorySummoner(new HistorySummonerDTO(
+                                summoner.getPlatform().getName(),
+                                summoner.getName(),
+                                league.getSoloRank(),
+                                league.getSoloRankInfo(),
+                                String.valueOf(summoner.getProfileIconId()),
+                                "n"
+                        ));
+
+
+                    mCallback.refreshSearchActivity();
+                } else {
+
+                    if(summonerDAO.getBookmarkSummoner(summoner.getName(), platform.getName()) != null)
+                        summonerDAO.addHistorySummoner(new HistorySummonerDTO(
+                                summoner.getPlatform().getName(),
+                                summoner.getName(),
+                                league.getSoloRank(),
+                                league.getSoloRankInfo(),
+                                String.valueOf(summoner.getProfileIconId()),
+                                "y"
+                        ));
+                    else
+                        summonerDAO.addHistorySummoner(new HistorySummonerDTO(
+                                summoner.getPlatform().getName(),
+                                summoner.getName(),
+                                league.getSoloRank(),
+                                league.getSoloRankInfo(),
+                                String.valueOf(summoner.getProfileIconId()),
+                                "n"
+                        ));
+
+                    mCallback.refreshSearchActivity();
                 }
 
             }
-
         }
     }
 }
