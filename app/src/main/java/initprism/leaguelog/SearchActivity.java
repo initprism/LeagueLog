@@ -39,7 +39,6 @@ public class SearchActivity extends AppCompatActivity {
 
     ImageView buttonClose;
     EditText summonerSearch;
-
     SummonerDAO summonerDAO;
 
     OmegaRecyclerView omegaRecyclerView;
@@ -159,6 +158,7 @@ public class SearchActivity extends AppCompatActivity {
                                 summoner.getName(),
                                 league.getSoloRank(),
                                 league.getSoloRankInfo(),
+                                String.valueOf(summoner.getSummonerLevel()),
                                 String.valueOf(summoner.getProfileIconId()),
                                 "y"
                         ));
@@ -168,6 +168,7 @@ public class SearchActivity extends AppCompatActivity {
                                 summoner.getName(),
                                 league.getSoloRank(),
                                 league.getSoloRankInfo(),
+                                String.valueOf(summoner.getSummonerLevel()),
                                 String.valueOf(summoner.getProfileIconId()),
                                 "n"
                         ));
@@ -182,6 +183,7 @@ public class SearchActivity extends AppCompatActivity {
                                 summoner.getName(),
                                 league.getSoloRank(),
                                 league.getSoloRankInfo(),
+                                String.valueOf(summoner.getSummonerLevel()),
                                 String.valueOf(summoner.getProfileIconId()),
                                 "y"
                         ));
@@ -191,6 +193,7 @@ public class SearchActivity extends AppCompatActivity {
                                 summoner.getName(),
                                 league.getSoloRank(),
                                 league.getSoloRankInfo(),
+                                String.valueOf(summoner.getSummonerLevel()),
                                 String.valueOf(summoner.getProfileIconId()),
                                 "n"
                         ));
@@ -198,6 +201,12 @@ public class SearchActivity extends AppCompatActivity {
                     mCallback.refreshSearchActivity();
                 }
 
+                Intent intent = new Intent(SearchActivity.this, SummonerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("platform", summoner.getPlatform().getName());
+                bundle.putSerializable("name", summoner.getName());
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         }
     }

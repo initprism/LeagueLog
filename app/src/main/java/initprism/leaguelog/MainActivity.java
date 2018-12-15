@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,8 +14,10 @@ import android.widget.Toast;
 
 import net.rithms.riot.constant.Platform;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
+import db.BookmarkSummonerDTO;
 import db.MySummonerDTO;
 import db.SummonerDAO;
 import misc.OnSingleClickListener;
@@ -24,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     /*--------CALL BACK METHOD--------*/
     public interface MyCallBack {
         void refreshMainActivity();
+
+        void refreshBookmark();
     }
 
     public static MyCallBack mCallback;
@@ -40,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
     Bundle bundle;
 
     SummonerDAO summonerDAO;
+
+    RecyclerView bookmarkRecycler;
+    RecyclerView.LayoutManager mLayoutManager;
+    BookmarkAdapter bookmarkAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +79,17 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.mUserInfo, fragment_mySummoner).commitNow();
             Toast.makeText(getApplicationContext(), mySummonerDTO.getName(), Toast.LENGTH_SHORT).show();
         }
+
+
+        bookmarkRecycler = findViewById(R.id.mBookmarkRecycler);
+        bookmarkRecycler.setHasFixedSize(true);
+        mLayoutManager = new GridLayoutManager(this, 2);
+        bookmarkRecycler.setLayoutManager(mLayoutManager);
+
+        ArrayList<BookmarkSummonerDTO> bookmarkArrayList = summonerDAO.getAllBookmarkSummoners();
+        bookmarkAdapter = new BookmarkAdapter(bookmarkArrayList);
+        bookmarkRecycler.setAdapter(bookmarkAdapter);
+
 
         summonerSearch.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -112,6 +133,13 @@ public class MainActivity extends AppCompatActivity {
                     fragment_mySummoner.setArguments(bundle);
                     getSupportFragmentManager().beginTransaction().replace(R.id.mUserInfo, fragment_mySummoner).commitNow();
                 }
+            }
+
+            @Override
+            public void refreshBookmark() {
+                ArrayList<BookmarkSummonerDTO> bookmarkArrayList = summonerDAO.getAllBookmarkSummoners();
+                bookmarkAdapter = new BookmarkAdapter(bookmarkArrayList);
+                bookmarkRecycler.setAdapter(bookmarkAdapter);
             }
         };
         /*--------CALL BACK METHOD--------*/

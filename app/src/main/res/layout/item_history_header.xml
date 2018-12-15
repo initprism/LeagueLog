@@ -15,7 +15,7 @@
     android:layout_height="50dp"
     android:gravity="center_vertical"
     android:textAppearance="?android:attr/textAppearanceMedium"
-    android:textColor="@color/navy"
+    android:textColor="@color/bgColor"
     tools:text="소환사"/>
 
 </LinearLayout>

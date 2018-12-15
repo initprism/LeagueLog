@@ -25,7 +25,8 @@ public class HistoryAdapter extends OmegaRecyclerView.Adapter<HistoryAdapter.Vie
 
 
     static Util util = new Util();
-    SearchActivity.MyCallBack callBack;
+    SearchActivity.MyCallBack callBackHistory;
+    MainActivity.MyCallBack callBackBookmark;
 
     private ArrayList<HistorySummonerDTO> HistoryArrayList;
 
@@ -104,6 +105,7 @@ public class HistoryAdapter extends OmegaRecyclerView.Adapter<HistoryAdapter.Vie
                             h.getName(),
                             h.getTier(),
                             h.getTierInfo(),
+                            h.getLevel(),
                             h.getProfileIcon(),
                             "n"
                     ));
@@ -113,11 +115,14 @@ public class HistoryAdapter extends OmegaRecyclerView.Adapter<HistoryAdapter.Vie
                             h.getName(),
                             h.getTier(),
                             h.getTierInfo(),
+                            h.getLevel(),
                             h.getProfileIcon()
                     ));
 
                     h.setBookmark("n");
                     holder.buttonBookmark.setImageResource(R.drawable.favorite_border_black);
+                    callBackBookmark = MainActivity.mCallback;
+                    callBackBookmark.refreshBookmark();
 
                 } else {
                     summonerDAO.updateHistorySummoner(new HistorySummonerDTO(
@@ -125,6 +130,7 @@ public class HistoryAdapter extends OmegaRecyclerView.Adapter<HistoryAdapter.Vie
                             h.getName(),
                             h.getTier(),
                             h.getTierInfo(),
+                            h.getLevel(),
                             h.getProfileIcon(),
                             "y"
                     ));
@@ -134,11 +140,14 @@ public class HistoryAdapter extends OmegaRecyclerView.Adapter<HistoryAdapter.Vie
                             h.getName(),
                             h.getTier(),
                             h.getTierInfo(),
+                            h.getLevel(),
                             h.getProfileIcon()
                     ));
 
                     h.setBookmark("y");
                     holder.buttonBookmark.setImageResource(R.drawable.favorite_black);
+                    callBackBookmark = MainActivity.mCallback;
+                    callBackBookmark.refreshBookmark();
                 }
 
 
@@ -151,8 +160,8 @@ public class HistoryAdapter extends OmegaRecyclerView.Adapter<HistoryAdapter.Vie
                 SummonerDAO summonerDAO = new SummonerDAO(v.getContext());
                 summonerDAO.deleteHistorySummoner(HistoryArrayList.get(position));
 
-                callBack = SearchActivity.mCallback;
-                callBack.refreshSearchActivity();
+                callBackHistory = SearchActivity.mCallback;
+                callBackHistory.refreshSearchActivity();
             }
         });
 

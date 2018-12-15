@@ -9,16 +9,18 @@ public class HistorySummonerDTO implements Serializable {
     String name;
     String tier;
     String tierInfo;
+    String level;
     String profileIcon;
     String bookmark;
 
     public HistorySummonerDTO(){}
 
-    public HistorySummonerDTO(String platform, String name, String tier, String tierInfo, String profileIcon, String bookmark) {
+    public HistorySummonerDTO(String platform, String name, String tier, String tierInfo, String level, String profileIcon,  String bookmark) {
         this.platform = platform;
         this.name = name;
         this.tier = tier;
         this.tierInfo = tierInfo;
+        this.level = level;
         this.profileIcon = profileIcon;
         this.bookmark = bookmark;
     }
@@ -58,6 +60,10 @@ public class HistorySummonerDTO implements Serializable {
     public String getProfileIcon() { return profileIcon; }
 
     public void setProfileIcon(String profileIcon) {this.profileIcon = profileIcon; }
+
+    public String getLevel() { return level; }
+
+    public void setLevel(String level) { this.level = level; }
 
     public String getBookmark() {
         return bookmark;

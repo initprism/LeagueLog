@@ -30,7 +30,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:src="@drawable/testicon"
-                app:civ_border_color="@color/lightWhite" />
+                app:civ_border_color="@color/white" />
 
 
             <LinearLayout
@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textColor="@color/navy"
+                    android:textColor="@color/bgColor"
                     android:textSize="18sp"
                     tools:text="못생긴게말걸지마라 " />
 
@@ -70,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:textAlignment="center"
-                        android:textColor="@color/navy"
+                        android:textColor="@color/bgColor"
                         android:textSize="14sp"
                         tools:text=" Gold 4" />
                 </LinearLayout>
@@ -92,14 +92,14 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/favorite_border_black"
                 android:layout_marginRight="10dp"
-                android:tint="@color/navy" />
+                android:tint="@color/bgColor" />
 
             <ImageView
                 android:id="@+id/mButtonRemove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_clear"
-                android:tint="@color/navy" />
+                android:tint="@color/bgColor" />
         </LinearLayout>
 
     </LinearLayout>

@@ -61,6 +61,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 + KEY_NAME + " TEXT,"
                 + KEY_TIER + " TEXT,"
                 + KEY_TIERINFO + " TEXT,"
+                + KEY_LEVEL + " TEXT,"
                 + KEY_PROFILEICON + " TEXT,"
                 + KEY_BOOKMARK + " TEXT,"
                 + " PRIMARY KEY (" + KEY_NAME + ", " + KEY_PLATFORM + "))";
@@ -70,6 +71,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 + KEY_NAME + " TEXT,"
                 + KEY_TIER + " TEXT,"
                 + KEY_TIERINFO + " TEXT,"
+                + KEY_LEVEL + " TEXT,"
                 + KEY_PROFILEICON + " TEXT,"
                 + " PRIMARY KEY (" + KEY_NAME + ", " + KEY_PLATFORM + "))";
 
@@ -229,6 +231,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         values.put(KEY_NAME, historySummonerDTO.getName());
         values.put(KEY_TIER, historySummonerDTO.getTier());
         values.put(KEY_TIERINFO, historySummonerDTO.getTierInfo());
+        values.put(KEY_LEVEL, historySummonerDTO.getLevel());
         values.put(KEY_PROFILEICON, historySummonerDTO.getProfileIcon());
         values.put(KEY_BOOKMARK, historySummonerDTO.getBookmark());
 
@@ -242,7 +245,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HISTORYSUMMONER, new String[]{KEY_PLATFORM,
-                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON, KEY_BOOKMARK}, KEY_NAME + "=?",
+                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_LEVEL, KEY_PROFILEICON, KEY_BOOKMARK}, KEY_NAME + "=?",
                 new String[]{String.valueOf(name)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -256,7 +259,8 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 cursor.getString(2),
                 cursor.getString(3),
                 cursor.getString(4),
-                cursor.getString(5));
+                cursor.getString(5),
+                cursor.getString(6));
         // return contact
         return historySummonerDTO;
     }
@@ -266,7 +270,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HISTORYSUMMONER, new String[]{KEY_PLATFORM,
-                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON, KEY_BOOKMARK}, KEY_NAME + "=? AND " + KEY_PLATFORM + " =?",
+                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_LEVEL, KEY_PROFILEICON, KEY_BOOKMARK}, KEY_NAME + "=? AND " + KEY_PLATFORM + " =?",
                 new String[]{name, platform}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -281,7 +285,8 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 cursor.getString(2),
                 cursor.getString(3),
                 cursor.getString(4),
-                cursor.getString(5));
+                cursor.getString(5),
+                cursor.getString(6));
         // return contact
         return historySummonerDTO;
     }
@@ -303,8 +308,9 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 summoner.setName(cursor.getString(1));
                 summoner.setTier(cursor.getString(2));
                 summoner.setTierInfo(cursor.getString(3));
-                summoner.setProfileIcon(cursor.getString(4));
-                summoner.setBookmark(cursor.getString(5));
+                summoner.setLevel(cursor.getString(4));
+                summoner.setProfileIcon(cursor.getString(5));
+                summoner.setBookmark(cursor.getString(6));
                 // Adding contact to list
                 SummonerList.add(summoner);
             } while (cursor.moveToNext());
@@ -323,6 +329,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         values.put(KEY_NAME, historySummonerDTO.getName());
         values.put(KEY_TIER, historySummonerDTO.getTier());
         values.put(KEY_TIERINFO, historySummonerDTO.getTierInfo());
+        values.put(KEY_LEVEL, historySummonerDTO.getLevel());
         values.put(KEY_PROFILEICON, historySummonerDTO.getProfileIcon());
         values.put(KEY_BOOKMARK, historySummonerDTO.getBookmark());
 
@@ -343,6 +350,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         values.put(KEY_NAME, historySummonerDTO.getName());
         values.put(KEY_TIER, historySummonerDTO.getTier());
         values.put(KEY_TIERINFO, historySummonerDTO.getTierInfo());
+        values.put(KEY_LEVEL, historySummonerDTO.getLevel());
         values.put(KEY_PROFILEICON, historySummonerDTO.getProfileIcon());
         values.put(KEY_BOOKMARK, historySummonerDTO.getBookmark());
 
@@ -383,6 +391,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         values.put(KEY_NAME, bookmarkSummonerDTO.getName());
         values.put(KEY_TIER, bookmarkSummonerDTO.getTier());
         values.put(KEY_TIERINFO, bookmarkSummonerDTO.getTierInfo());
+        values.put(KEY_LEVEL, bookmarkSummonerDTO.getLevel());
         values.put(KEY_PROFILEICON, bookmarkSummonerDTO.getProfileIcon());
 
         // Inserting Row
@@ -395,7 +404,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_BOOKMARKSUMMONER, new String[]{KEY_PLATFORM,
-                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON}, KEY_NAME + "=?",
+                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_LEVEL, KEY_PROFILEICON}, KEY_NAME + "=?",
                 new String[]{String.valueOf(name)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -408,7 +417,8 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getString(3),
-                cursor.getString(4));
+                cursor.getString(4),
+                cursor.getString(5));
         // return contact
         return bookmarkSummonerDTO;
     }
@@ -418,7 +428,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_BOOKMARKSUMMONER, new String[]{KEY_PLATFORM,
-                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_PROFILEICON}, KEY_NAME + "=? AND " + KEY_PLATFORM + " =?",
+                        KEY_NAME, KEY_TIER, KEY_TIERINFO, KEY_LEVEL, KEY_PROFILEICON}, KEY_NAME + "=? AND " + KEY_PLATFORM + " =?",
                 new String[]{name, platform}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -432,7 +442,8 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getString(3),
-                cursor.getString(4));
+                cursor.getString(4),
+                cursor.getString(5));
         // return contact
         return bookmarkSummonerDTO;
     }
@@ -454,7 +465,8 @@ public class SummonerDAO extends SQLiteOpenHelper {
                 summoner.setName(cursor.getString(1));
                 summoner.setTier(cursor.getString(2));
                 summoner.setTierInfo(cursor.getString(3));
-                summoner.setProfileIcon(cursor.getString(4));
+                summoner.setLevel(cursor.getString(4));
+                summoner.setProfileIcon(cursor.getString(5));
                 // Adding contact to list
                 SummonerList.add(summoner);
             } while (cursor.moveToNext());
@@ -473,6 +485,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         values.put(KEY_NAME, bookmarkSummonerDTO.getName());
         values.put(KEY_TIER, bookmarkSummonerDTO.getTier());
         values.put(KEY_TIERINFO, bookmarkSummonerDTO.getTierInfo());
+        values.put(KEY_LEVEL, bookmarkSummonerDTO.getLevel());
         values.put(KEY_PROFILEICON, bookmarkSummonerDTO.getProfileIcon());
 
         // updating row
@@ -492,6 +505,7 @@ public class SummonerDAO extends SQLiteOpenHelper {
         values.put(KEY_NAME, bookmarkSummonerDTO.getName());
         values.put(KEY_TIER, bookmarkSummonerDTO.getTier());
         values.put(KEY_TIERINFO, bookmarkSummonerDTO.getTierInfo());
+        values.put(KEY_LEVEL, bookmarkSummonerDTO.getLevel());
         values.put(KEY_PROFILEICON, bookmarkSummonerDTO.getProfileIcon());
 
         // updating row

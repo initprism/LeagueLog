@@ -8,6 +8,7 @@ import net.rithms.riot.api.endpoints.league.dto.LeaguePosition;
 import net.rithms.riot.api.request.AsyncRequest;
 import net.rithms.riot.api.request.RequestAdapter;
 
+import java.io.Serializable;
 import java.util.Set;
 import java.util.logging.Level;
 

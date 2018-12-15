@@ -9,6 +9,10 @@
     <color name="black">#000000</color>
     <color name="lightBlack">#CC000000</color>
     <color name="grey">#808080</color>
-    <color name="navy">#243a4f</color>
+    <!--<color name="navy">#243a4f</color>-->
     <color name="lightWhite">#CCFFFFFF</color>
+
+
+    <color name="bgColor">#292f33</color>
+    <color name="fontColor">#ffffff</color>
 </resources>

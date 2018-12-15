@@ -15,7 +15,7 @@
         android:textAlignment="center"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textColor="@color/navy"
+        android:textColor="#66757f"
         android:text="본인의 소환사 아이디를 등록해 주세요."
         android:textSize="15dp"/>
 </LinearLayout>

@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#243a4f"
+        android:background="@color/bgColor"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="horizontal">
@@ -22,9 +22,9 @@
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:adjustViewBounds="true"
             android:src="@drawable/ic_clear_grey"
             android:textAlignment="center"
@@ -34,14 +34,14 @@
             android:id="@+id/mSummonerSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/search_summoner_box"
             android:drawableEnd="@drawable/search"
-            android:drawableTint="@color/navy"
+            android:drawableTint="@color/bgColor"
             android:hint="소환사 검색"
             android:paddingBottom="8dp"
             android:paddingLeft="10dp"
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="최근 검색 "
-            android:textColor="@color/navy"
+            android:textColor="#65757f"
             android:textSize="24dp" />
 
     </LinearLayout>
@@ -78,12 +78,11 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-
             <com.omega_r.libs.omegarecyclerview.OmegaRecyclerView
                 android:id="@+id/mHistoryRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@color/navy"
+                android:divider="@color/bgColor"
                 app:dividerPadding="16dp"
                 android:dividerHeight="1dp"
                 app:itemSpace="0dp"

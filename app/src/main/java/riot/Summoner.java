@@ -8,6 +8,7 @@ import net.rithms.riot.api.request.AsyncRequest;
 import net.rithms.riot.api.request.RequestAdapter;
 import net.rithms.riot.constant.Platform;
 
+import java.io.Serializable;
 import java.util.logging.Level;
 
 
