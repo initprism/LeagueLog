@@ -3,22 +3,23 @@ package riot;
 import android.util.Log;
 
 import net.rithms.riot.api.RiotApi;
+import net.rithms.riot.api.endpoints.spectator.dto.BannedChampion;
 import net.rithms.riot.api.endpoints.spectator.dto.CurrentGameInfo;
 import net.rithms.riot.api.endpoints.spectator.dto.CurrentGameParticipant;
 import net.rithms.riot.api.request.AsyncRequest;
 import net.rithms.riot.api.request.RequestAdapter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 
-public class Spectator {
+public class Spectator implements Serializable {
 
-    public CurrentGameInfo currentGameInfo;
-    AsyncRequest requestSpecator;
+    private CurrentGameInfo currentGameInfo;
 
     public Spectator(Summoner summoner) {
         try {
-            requestSpecator = summoner.getApiAsync().getActiveGameBySummoner(summoner.getPlatform(), summoner.getSummonerId());
+            AsyncRequest requestSpecator = summoner.getApiAsync().getActiveGameBySummoner(summoner.getPlatform(), summoner.getSummonerId());
             requestSpecator.addListeners(new RequestAdapter() {
                 @Override
                 public void onRequestSucceeded(AsyncRequest request) {
@@ -73,5 +74,9 @@ public class Spectator {
 
     public List<CurrentGameParticipant> getCurrentGameParticipants() {
         return currentGameInfo.getParticipants();
+    }
+
+    public List<BannedChampion> getBannedChampions() {
+        return currentGameInfo.getBannedChampions();
     }
 }

@@ -3,25 +3,30 @@ package riot;
 import android.util.Log;
 
 import net.rithms.riot.api.RiotApi;
+import net.rithms.riot.api.RiotApiAsync;
 import net.rithms.riot.api.endpoints.league.constant.LeagueQueue;
 import net.rithms.riot.api.endpoints.league.dto.LeaguePosition;
 import net.rithms.riot.api.request.AsyncRequest;
 import net.rithms.riot.api.request.RequestAdapter;
+import net.rithms.riot.constant.Platform;
 
-import java.io.Serializable;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class League implements Serializable {
-
+public class LeagueIngame {
     private LeaguePosition leagueSolo;
     private LeaguePosition leagueFlexSR;
 
-//    AsyncRequest requestLeague;
+    private Platform platform;
+    private RiotApi api;
+    private RiotApiAsync apiAsync;
+    AsyncRequest requestLeague;
 
-    public League(Summoner summoner) {
+    public LeagueIngame(Platform platform, long id) {
         try {
-            AsyncRequest requestLeague = summoner.getApiAsync().getLeaguePositionsBySummonerId(summoner.getPlatform(), summoner.getSummoner().getId());
+            RiotApi api = new Config().getApi();
+            apiAsync = api.getAsyncApi();
+            requestLeague = apiAsync.getLeaguePositionsBySummonerId(platform, id);
             requestLeague.addListeners(new RequestAdapter() {
                 @Override
                 public void onRequestSucceeded(AsyncRequest request) {
@@ -43,7 +48,7 @@ public class League implements Serializable {
 
             try {
                 // Wait for all asynchronous requests to finish
-                summoner.getApiAsync().awaitAll();
+               apiAsync.awaitAll();
             } catch (InterruptedException e) {
                 // We can use the Api's logger
                 RiotApi.log.log(Level.SEVERE, "Waiting Interrupted", e);

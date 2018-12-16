@@ -16,7 +16,9 @@ public class Util {
     private JSONArray perksData;
 
     private String profileIconURL;
-
+    private String champIconURL;
+    private String spellIconURL;
+    private String perksIconURL;
 
     public Util(){
         try {
@@ -27,10 +29,9 @@ public class Util {
             spellData = JsonReader.readJsonFromUrl("http://ddragon.leagueoflegends.com/cdn/" + version + "/data/en_US/summoner.json".trim()).getJSONObject("data");
             perksData = new JSONArray(JsonReader.readJsonArrayFromUrl("http://ddragon.leagueoflegends.com/cdn/" + version + "/data/en_US/runesReforged.json"));
             profileIconURL = "http://ddragon.leagueoflegends.com/cdn/" + version + "/img/profileicon/";
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            champIconURL = "http://ddragon.leagueoflegends.com/cdn/" + version + "/img/champion/";
+            spellIconURL = "http://ddragon.leagueoflegends.com/cdn/" + version + "/img/spell/";
+            perksIconURL = "http://ddragon.leagueoflegends.com/cdn/img/";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,6 +56,16 @@ public class Util {
 
     public String getProfileIconURL(){
         return profileIconURL;
+    }
+
+    public String getChampIconURL(){
+        return champIconURL;
+    }
+    public String getSpellIconURL(){
+        return spellIconURL;
+    }
+    public String getPerksIconURL(){
+        return perksIconURL;
     }
 }
 

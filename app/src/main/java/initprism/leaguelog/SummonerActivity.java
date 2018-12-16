@@ -1,14 +1,17 @@
 package initprism.leaguelog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +23,7 @@ import net.rithms.riot.constant.Platform;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicReference;
 
 import db.BookmarkSummonerDTO;
 import db.HistorySummonerDTO;
@@ -43,7 +47,6 @@ public class SummonerActivity extends AppCompatActivity {
     FancyButton buttonIngame;
 
     RecyclerView summonerRecycler;
-    RecyclerView.LayoutManager mLayoutManager;
     TierAdapter tierAdapter;
 
     static Util util = new Util();
@@ -146,6 +149,21 @@ public class SummonerActivity extends AppCompatActivity {
             }
         });
 
+        buttonIngame.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                if(spectator.isInGame() != -1){
+                    Intent intent = new Intent(SummonerActivity.this, IngameActivity.class);
+                    intent.putExtra("spectator", spectator);
+                    intent.putExtra("platform", platform);
+                    startActivity(intent);
+                }else{
+                    showIngameAlert();
+                }
+
+            }
+        });
+
         // finish button
         buttonBack.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -201,4 +219,20 @@ public class SummonerActivity extends AppCompatActivity {
 
         }
     }
+
+    void showIngameAlert()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("알림");
+        builder.setMessage("'"+ summoner.getName() + "'님은 현재 게임중이 아닙니다");
+        builder.setPositiveButton("확인",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+
+        builder.show();
+    }
+
 }
