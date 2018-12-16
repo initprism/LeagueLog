@@ -11,19 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.rithms.riot.constant.Platform;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.concurrent.atomic.AtomicReference;
 
 import db.BookmarkSummonerDTO;
 import db.HistorySummonerDTO;
@@ -32,6 +27,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import mehdi.sakout.fancybuttons.FancyButton;
 import misc.OnSingleClickListener;
 import riot.League;
+import riot.Match;
+import riot.MatchList;
 import riot.Spectator;
 import riot.Summoner;
 import riot.Util;
@@ -49,6 +46,9 @@ public class SummonerActivity extends AppCompatActivity {
     RecyclerView summonerRecycler;
     TierAdapter tierAdapter;
 
+    RecyclerView matchRecycler;
+    MatchAdapter matchAdapter;
+
     static Util util = new Util();
     Platform platform;
 
@@ -56,6 +56,8 @@ public class SummonerActivity extends AppCompatActivity {
     Summoner summoner;
     League league;
     Spectator spectator;
+    MatchList matchList;
+    Match match;
 
     SearchActivity.MyCallBack callBackHistory;
     MainActivity.MyCallBack callBackBookmark;
@@ -97,8 +99,9 @@ public class SummonerActivity extends AppCompatActivity {
         summonerRecycler.setHasFixedSize(true);
         summonerRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
-
-
+        matchRecycler = (RecyclerView) findViewById(R.id.mMatchRecycler);
+        matchRecycler.setHasFixedSize(true);
+        matchRecycler.setLayoutManager(new LinearLayoutManager(this));
 
 
         // task
@@ -188,6 +191,7 @@ public class SummonerActivity extends AppCompatActivity {
             summoner = new Summoner(platform, name);
             league = new League(summoner);
             spectator = new Spectator(summoner);
+            matchList = new MatchList(summoner);
 
             summonerLevel.setText("Lv." + String.valueOf(summoner.getSummonerLevel()));
             summonerId.setText(summoner.getName());
@@ -215,7 +219,12 @@ public class SummonerActivity extends AppCompatActivity {
             tierAdapter = new TierAdapter(tierItems);
             summonerRecycler.setAdapter(tierAdapter);
 
+            ArrayList<Match> s = new ArrayList<>();
 
+            for(int i = 0; i < 10; i++)
+                s.add(new Match(summoner, matchList.getMatchList().getMatches().get(i).getGameId(), matchList.getMatchList().getMatches().get(i)));
+            matchAdapter = new MatchAdapter(s);
+            matchRecycler.setAdapter(matchAdapter);
 
         }
     }
@@ -231,7 +240,6 @@ public class SummonerActivity extends AppCompatActivity {
                         return;
                     }
                 });
-
         builder.show();
     }
 

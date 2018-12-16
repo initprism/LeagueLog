@@ -118,7 +118,7 @@ public class IngameActivity extends AppCompatActivity {
                 bannedText.setText("");
                 break;
             default:
-                gameType.setText("unknown");
+                gameType.setText("커스텀 게임");
                 map.setText("");
                 bannedText.setText("금지한 챔피언");
                 break;

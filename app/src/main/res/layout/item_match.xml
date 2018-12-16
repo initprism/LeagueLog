@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:background="@color/bgColor"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/mWinFlag"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="#3d95e5"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mWinText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="승리"
+                        android:textColor="#3d95e5"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/mTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3d ago"
+                        android:textColor="#adaeb1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/mChampIcon"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:src="@drawable/testicon"
+                            app:civ_border_color="@color/fontColor"
+                            app:civ_border_width="1dp" />
+
+
+                        <TextView
+                            android:id="@+id/mLevel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/mChampIcon"
+                            android:layout_alignRight="@+id/mChampIcon"
+                            android:layout_margin="0dp"
+                            android:autoSizeTextType="uniform"
+                            android:background="@drawable/level_box"
+                            android:gravity="center"
+                            android:text="13"
+                            android:textColor="@color/white"
+                            android:textSize="13dp" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="6dp"
+                        android:orientation="vertical">
+                        <!--rune icon1 -->
+                        <ImageView
+                            android:id="@+id/mSummonerRune1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_marginBottom="2dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/testicon" />
+                        <!--rune icon2 -->
+                        <ImageView
+                            android:id="@+id/mSummonerRune2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/testicon" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="6dp"
+                        android:orientation="vertical">
+                        <!--spell icon1-->
+                        <ImageView
+                            android:id="@+id/mSummonerSpell1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_marginBottom="2dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/testicon" />
+                        <!--spell icon2-->
+                        <ImageView
+                            android:id="@+id/mSummonerSpell2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/testicon" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mRecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11 / 11 / 13"
+                        android:textColor="@color/white"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/mKDA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="14.00 KDA"
+                        android:textColor="#3d95e5"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mTotalCS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="123 (0)CS"
+                        android:textColor="@color/white"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/mKP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="64% KP "
+                        android:textColor="#adaeb1"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:alpha="0.3"
+                android:background="#adaeb1" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp">
+
+                    <TextView
+                        android:id="@+id/mGameType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="솔로 랭크"
+                        android:textColor="#adaeb1"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
+                        android:text="・"
+                        android:textColor="#adaeb1"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/mGameDuration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="33:22"
+                        android:textColor="#adaeb1"
+                        android:textSize="13dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp">
+
+                    <ImageView
+                        android:id="@+id/mItem0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/testicon" />
+
+                    <ImageView
+                        android:id="@+id/mItem1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="5dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/testicon" />
+
+                    <ImageView
+                        android:id="@+id/mItem2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="5dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/testicon" />
+
+                    <ImageView
+                        android:id="@+id/mItem3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="5dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/testicon" />
+
+                    <ImageView
+                        android:id="@+id/mItem4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="5dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/testicon" />
+
+                    <ImageView
+                        android:id="@+id/mItem5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="5dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/testicon" />
+
+                    <ImageView
+                        android:id="@+id/mItem6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="5dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/testicon" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

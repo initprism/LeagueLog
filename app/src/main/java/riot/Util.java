@@ -19,6 +19,7 @@ public class Util {
     private String champIconURL;
     private String spellIconURL;
     private String perksIconURL;
+    private String itemIconURL;
 
     public Util(){
         try {
@@ -32,6 +33,7 @@ public class Util {
             champIconURL = "http://ddragon.leagueoflegends.com/cdn/" + version + "/img/champion/";
             spellIconURL = "http://ddragon.leagueoflegends.com/cdn/" + version + "/img/spell/";
             perksIconURL = "http://ddragon.leagueoflegends.com/cdn/img/";
+            itemIconURL = "http://ddragon.leagueoflegends.com/cdn/"+ version +"/img/item/";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,5 +69,6 @@ public class Util {
     public String getPerksIconURL(){
         return perksIconURL;
     }
+    public String getItemIconURL(){ return  itemIconURL; }
 }
 
