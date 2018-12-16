@@ -10,6 +10,7 @@
     app:cardElevation="5dp">
 
     <LinearLayout
+        android:id="@+id/mBookmarkLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -26,7 +27,7 @@
                 android:layout_height="55dp"
                 android:layout_marginTop="3dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/testicon" />
+                 />
 
 
             <TextView
@@ -39,7 +40,7 @@
                 android:autoSizeTextType="uniform"
                 android:background="@drawable/level_box"
                 android:gravity="center"
-                android:text="134"
+                android:text=""
                 android:textAlignment="center"
                 android:textColor="@color/fontColor"
                 android:textSize="13dp" />

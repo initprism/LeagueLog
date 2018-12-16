@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".SummonerActivity"></activity>
+        <activity android:name=".SummonerActivity" />
+        <activity android:name=".IngameActivity"></activity>
     </application>
 
 </manifest>

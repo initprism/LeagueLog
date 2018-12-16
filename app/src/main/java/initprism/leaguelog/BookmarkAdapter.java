@@ -1,12 +1,15 @@
 package initprism.leaguelog;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.net.URL;
@@ -28,6 +31,8 @@ public class BookmarkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView summonerTier;
         ImageView bookmark;
 
+        LinearLayout bookmarkLayout;
+
         BookmarkHolder(View view) {
             super(view);
             summonerIcon = view.findViewById(R.id.mSummonerIcon);
@@ -36,6 +41,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             summonerTierIcon = view.findViewById(R.id.mSummonerTierIcon);
             summonerTier = view.findViewById(R.id.mSummonerTier);
             bookmark = view.findViewById(R.id.mBookmark);
+            bookmarkLayout = view.findViewById(R.id.mBookmarkLayout);
         }
     }
 
@@ -125,6 +131,31 @@ public class BookmarkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 callBackBookmark = MainActivity.mCallback;
                 callBackBookmark.refreshBookmark();
 
+            }
+        });
+
+        bookmarkholder.bookmarkLayout.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                SummonerDAO summonerDAO = new SummonerDAO(v.getContext());
+                summonerDAO.replaceHistorySummoner(new HistorySummonerDTO(
+                        BookmarkArrayList.get(position).getPlatform(),
+                        BookmarkArrayList.get(position).getName(),
+                        BookmarkArrayList.get(position).getTier(),
+                        BookmarkArrayList.get(position).getTierInfo(),
+                        BookmarkArrayList.get(position).getLevel(),
+                        BookmarkArrayList.get(position).getProfileIcon(),
+                        "y"
+                ));
+                callBackHistory = SearchActivity.mCallback;
+                callBackHistory.refreshSearchActivity();
+
+                Intent intent = new Intent(v.getContext(), SummonerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("platform", BookmarkArrayList.get(position).getPlatform());
+                bundle.putSerializable("name", BookmarkArrayList.get(position).getName());
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
             }
         });
     }

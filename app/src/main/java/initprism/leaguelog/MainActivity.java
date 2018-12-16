@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static MyCallBack mCallback;
     /*--------CALL BACK METHOD--------*/
 
-    EditText summonerSearch;
+    TextView summonerSearch;
     TextView platformTextView;
 
     AtomicReference<Platform> platform = new AtomicReference<Platform>(Platform.KR);
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        summonerSearch = (EditText) findViewById(R.id.mSummonerSearch);
+        summonerSearch = (TextView) findViewById(R.id.mSummonerSearch);
         platformTextView = (TextView) findViewById(R.id.mPlatformTextView);
         dialog = new PlatformSheetDialog(platformTextView, platform);
 

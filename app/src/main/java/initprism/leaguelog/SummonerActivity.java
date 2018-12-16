@@ -3,17 +3,23 @@ package initprism.leaguelog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.rithms.riot.constant.Platform;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import db.BookmarkSummonerDTO;
 import db.HistorySummonerDTO;
@@ -32,10 +38,13 @@ public class SummonerActivity extends AppCompatActivity {
     ImageView buttonBack;
     ImageView bookmark;
     CircleImageView summonerIcon;
-    ImageView actvieGameFlag;
     TextView summonerLevel;
     TextView summonerId;
     FancyButton buttonIngame;
+
+    RecyclerView summonerRecycler;
+    RecyclerView.LayoutManager mLayoutManager;
+    TierAdapter tierAdapter;
 
     static Util util = new Util();
     Platform platform;
@@ -43,6 +52,7 @@ public class SummonerActivity extends AppCompatActivity {
     SummonerDAO summonerDAO;
     Summoner summoner;
     League league;
+    Spectator spectator;
 
     SearchActivity.MyCallBack callBackHistory;
     MainActivity.MyCallBack callBackBookmark;
@@ -71,20 +81,28 @@ public class SummonerActivity extends AppCompatActivity {
             case "oce": platform = Platform.OCE; break;
         }
 
+        summonerDAO = new SummonerDAO(this);
+
         buttonBack = (ImageView) findViewById(R.id.mButtonBack);
         bookmark = (ImageView) findViewById(R.id.mBookmark);
         summonerIcon = (CircleImageView) findViewById(R.id.mSummonerIcon);
-        actvieGameFlag = (ImageView) findViewById(R.id.activeGameFlag);
         summonerLevel = (TextView) findViewById(R.id.mSummonerLevel);
         summonerId = (TextView) findViewById(R.id.mSummonerId);
         buttonIngame = (FancyButton) findViewById(R.id.mButtonIngame);
+
+        summonerRecycler = (RecyclerView) findViewById(R.id.mSummonerTier_recycler);
+        summonerRecycler.setHasFixedSize(true);
+        summonerRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+
+
+
+
 
         // task
         AsyncTaskSummoner taskSummoner = new AsyncTaskSummoner();
         taskSummoner.execute(name);
 
         // bookmark button
-        summonerDAO = new SummonerDAO(this);
 
         if (summonerDAO.getBookmarkSummoner(name, platformName) != null)
             bookmark.setImageResource(R.drawable.favorite_black);
@@ -151,7 +169,7 @@ public class SummonerActivity extends AppCompatActivity {
 
             summoner = new Summoner(platform, name);
             league = new League(summoner);
-            Spectator spectator = new Spectator(summoner);
+            spectator = new Spectator(summoner);
 
             summonerLevel.setText("Lv." + String.valueOf(summoner.getSummonerLevel()));
             summonerId.setText(summoner.getName());
@@ -163,6 +181,22 @@ public class SummonerActivity extends AppCompatActivity {
                 e.printStackTrace();
                 summonerIcon.setImageResource(R.drawable.testicon);
             }
+            if(spectator.isInGame() != -1){
+                buttonIngame.setBackgroundColor(Color.parseColor("#008b8b"));
+            }
+
+            ArrayList<TierItem> tierItems = new ArrayList<>();
+            tierItems.add(new TierItem(league.getSoloRank(), "솔랭",
+                    league.getSoloRankInfo(), String.valueOf(league.getLeagueSoloPoints()),
+                    league.getSoloWins(), league.getSoloLosses(), league.getSoloWinningAverage()));
+
+            tierItems.add(new TierItem(league.getTeamRank(), "자유 5:5 랭크",
+                    league.getTeamRankInfo(), String.valueOf(league.getLeagueTeamPoints()),
+                    league.getTeamWins(), league.getTeamLosses(), league.getTeamWinningAverage()));
+
+            tierAdapter = new TierAdapter(tierItems);
+            summonerRecycler.setAdapter(tierAdapter);
+
 
 
         }

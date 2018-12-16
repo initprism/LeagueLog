@@ -39,7 +39,11 @@ public class Spectator {
     }
 
     public long isInGame() {
-        return currentGameInfo.getGameId();
+        try{
+            return currentGameInfo.getGameId();
+        }catch (Exception e){
+            return -1;
+        }
     }
 
     public long getCurrentGameLength() {

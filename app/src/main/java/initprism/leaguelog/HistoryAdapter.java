@@ -1,11 +1,14 @@
 package initprism.leaguelog;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import db.BookmarkSummonerDTO;
 import db.HistorySummonerDTO;
 import db.SummonerDAO;
 import misc.OnSingleClickListener;
+import riot.Summoner;
 import riot.Util;
 
 public class HistoryAdapter extends OmegaRecyclerView.Adapter<HistoryAdapter.ViewHolder>
@@ -154,6 +158,31 @@ public class HistoryAdapter extends OmegaRecyclerView.Adapter<HistoryAdapter.Vie
             }
         });
 
+        holder.historyLayout.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                SummonerDAO summonerDAO = new SummonerDAO(v.getContext());
+                summonerDAO.replaceHistorySummoner(new HistorySummonerDTO(
+                        HistoryArrayList.get(position).getPlatform(),
+                        HistoryArrayList.get(position).getName(),
+                        HistoryArrayList.get(position).getTier(),
+                        HistoryArrayList.get(position).getTierInfo(),
+                        HistoryArrayList.get(position).getLevel(),
+                        HistoryArrayList.get(position).getProfileIcon(),
+                        HistoryArrayList.get(position).getBookmark()
+                ));
+                callBackHistory = SearchActivity.mCallback;
+                callBackHistory.refreshSearchActivity();
+
+                Intent intent = new Intent(v.getContext(), SummonerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("platform", HistoryArrayList.get(position).getPlatform());
+                bundle.putSerializable("name", HistoryArrayList.get(position).getName());
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
+            }
+        });
+
         holder.buttonRemove.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
@@ -199,6 +228,8 @@ public class HistoryAdapter extends OmegaRecyclerView.Adapter<HistoryAdapter.Vie
         ImageView buttonRemove;
         ImageView buttonBookmark;
 
+        LinearLayout historyLayout;
+
         public ViewHolder(View itemView) {
             super(itemView);
             summonerIcon = itemView.findViewById(R.id.mSummonerIcon);
@@ -208,6 +239,8 @@ public class HistoryAdapter extends OmegaRecyclerView.Adapter<HistoryAdapter.Vie
 
             buttonRemove = itemView.findViewById(R.id.mButtonRemove);
             buttonBookmark = itemView.findViewById(R.id.mBookmark);
+
+            historyLayout = itemView.findViewById(R.id.mHistoryLayout);
         }
     }
 

@@ -26,7 +26,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/arrow_back"
                 android:tint="@color/white"
-                android:tintMode="src_in"/>
+                android:tintMode="src_in" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,16 +76,6 @@
                     android:src="@drawable/testicon"
                     app:civ_border_color="@color/white"
                     app:civ_border_width="1dp" />
-
-                <ImageView
-                    android:id="@+id/activeGameFlag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/mSummonerIcon"
-                    android:layout_alignRight="@+id/mSummonerIcon"
-                    android:layout_margin="0dp"
-                    android:gravity="center"
-                    android:src="@drawable/ic_ingame_on" />
 
 
             </RelativeLayout>
@@ -163,8 +153,20 @@
                 fancy:fb_textColor="@color/white" />
 
         </LinearLayout>
-
-
     </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mSummonerTier_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
 </LinearLayout>
 

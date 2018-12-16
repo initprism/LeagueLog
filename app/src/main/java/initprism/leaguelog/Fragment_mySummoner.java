@@ -1,5 +1,6 @@
 package initprism.leaguelog;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.net.URL;
@@ -36,6 +38,8 @@ public class Fragment_mySummoner extends Fragment {
     MySummonerDTO mySummonerDTO;
     SummonerDAO summonerDAO;
 
+    LinearLayout mySummonerLayout;
+
     MainActivity.MyCallBack callBack;
 
     @Override
@@ -53,6 +57,7 @@ public class Fragment_mySummoner extends Fragment {
         mSummonerTier = (TextView) view.findViewById(R.id.mSummonerTier);
         mSummonerLp = (TextView) view.findViewById(R.id.mSummonerLp);
         mSummonerRecord = (TextView) view.findViewById(R.id.mSummonerRecord);
+        mySummonerLayout = (LinearLayout) view.findViewById(R.id.mMySummonerLayout);
 
         mySummonerDTO = (MySummonerDTO) getArguments().getSerializable("mySummonerDTO");
 
@@ -110,6 +115,18 @@ public class Fragment_mySummoner extends Fragment {
             mSummonerLp.setText(" (" + mySummonerDTO.getLp() + "LP)");
             mSummonerRecord.setText(mySummonerDTO.getWins() + "승 " + mySummonerDTO.getLosses() + "패 / " + "(" + mySummonerDTO.getAvr() + "%)");
         }
+
+        mySummonerLayout.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                Intent intent = new Intent(v.getContext(), SummonerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("platform", mySummonerDTO.getPlatform());
+                bundle.putSerializable("name", mySummonerDTO.getName());
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
+            }
+        });
 
         mRemoveMySummoner.setOnClickListener(new OnSingleClickListener() {
             @Override
