@@ -20,6 +20,7 @@ public class Match implements Serializable {
     net.rithms.riot.api.endpoints.match.dto.Match match;
     MatchReference matchReference;
     String name;
+
     public Match(Summoner summoner, final long matchId, MatchReference matchReference) {
         try {
             this.matchReference = matchReference;

@@ -20,7 +20,8 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".SummonerActivity" />
-        <activity android:name=".IngameActivity"></activity>
+        <activity android:name=".IngameActivity" />
+        <activity android:name=".MatchActivity"></activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@
 
 
     <LinearLayout
+        android:id="@+id/mLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
@@ -42,7 +43,6 @@
                         android:id="@+id/mWinText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="승리"
                         android:textColor="#3d95e5"
                         android:textSize="16dp" />
 
@@ -50,7 +50,6 @@
                         android:id="@+id/mTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3d ago"
                         android:textColor="#adaeb1" />
 
                 </LinearLayout>
@@ -69,7 +68,6 @@
                             android:id="@+id/mChampIcon"
                             android:layout_width="56dp"
                             android:layout_height="56dp"
-                            android:src="@drawable/testicon"
                             app:civ_border_color="@color/fontColor"
                             app:civ_border_width="1dp" />
 
@@ -84,7 +82,6 @@
                             android:autoSizeTextType="uniform"
                             android:background="@drawable/level_box"
                             android:gravity="center"
-                            android:text="13"
                             android:textColor="@color/white"
                             android:textSize="13dp" />
 
@@ -102,15 +99,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
                             android:layout_marginBottom="2dp"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/testicon" />
+                            android:adjustViewBounds="true" />
                         <!--rune icon2 -->
                         <ImageView
                             android:id="@+id/mSummonerRune2"
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/testicon" />
+                            android:adjustViewBounds="true" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -125,15 +120,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
                             android:layout_marginBottom="2dp"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/testicon" />
+                            android:adjustViewBounds="true" />
                         <!--spell icon2-->
                         <ImageView
                             android:id="@+id/mSummonerSpell2"
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/testicon" />
+                            android:adjustViewBounds="true" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -149,7 +142,6 @@
                         android:id="@+id/mRecord"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="11 / 11 / 13"
                         android:textColor="@color/white"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -158,7 +150,6 @@
                         android:id="@+id/mKDA"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="14.00 KDA"
                         android:textColor="#3d95e5"
                         android:textSize="13dp" />
                 </LinearLayout>
@@ -176,7 +167,6 @@
                         android:id="@+id/mTotalCS"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="123 (0)CS"
                         android:textColor="@color/white"
                         android:textSize="15dp" />
 
@@ -184,7 +174,6 @@
                         android:id="@+id/mKP"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="64% KP "
                         android:textColor="#adaeb1"
                         android:textSize="13dp" />
                 </LinearLayout>
@@ -215,7 +204,6 @@
                         android:id="@+id/mGameType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="솔로 랭크"
                         android:textColor="#adaeb1"
                         android:textSize="13dp" />
 
@@ -232,7 +220,6 @@
                         android:id="@+id/mGameDuration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="33:22"
                         android:textColor="#adaeb1"
                         android:textSize="13dp" />
                 </LinearLayout>
@@ -246,56 +233,48 @@
                         android:id="@+id/mItem0"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/testicon" />
+                        android:adjustViewBounds="true" />
 
                     <ImageView
                         android:id="@+id/mItem1"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
                         android:layout_marginLeft="5dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/testicon" />
+                        android:adjustViewBounds="true" />
 
                     <ImageView
                         android:id="@+id/mItem2"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
                         android:layout_marginLeft="5dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/testicon" />
+                        android:adjustViewBounds="true" />
 
                     <ImageView
                         android:id="@+id/mItem3"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
                         android:layout_marginLeft="5dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/testicon" />
+                        android:adjustViewBounds="true" />
 
                     <ImageView
                         android:id="@+id/mItem4"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
                         android:layout_marginLeft="5dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/testicon" />
+                        android:adjustViewBounds="true" />
 
                     <ImageView
                         android:id="@+id/mItem5"
                         android:layout_width="wrap_content"
                         android:layout_height="24dp"
                         android:layout_marginLeft="5dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/testicon" />
+                        android:adjustViewBounds="true" />
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/mItem6"
-                        android:layout_width="wrap_content"
+                        android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_marginLeft="5dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/testicon" />
+                        android:layout_marginLeft="5dp" />
 
                 </LinearLayout>
 

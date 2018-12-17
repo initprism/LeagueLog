@@ -1,5 +1,6 @@
 package initprism.leaguelog;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import net.rithms.riot.api.endpoints.match.dto.TeamStats;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import misc.OnSingleClickListener;
 import riot.Match;
 import riot.Util;
 
@@ -31,6 +34,7 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
     public static class MatchHolder extends RecyclerView.ViewHolder {
+        LinearLayout layout;
         LinearLayout winFlag;
         TextView winText;
         TextView time;
@@ -46,10 +50,12 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView kp;
         TextView gameType;
         TextView gameDuration;
-        ImageView item0, item1, item2, item3, item4, item5, item6;
+        ImageView item0, item1, item2, item3, item4, item5;
+        CircleImageView item6;
 
         MatchHolder(View view) {
             super(view);
+            layout = view.findViewById(R.id.mLayout);
             winFlag = view.findViewById(R.id.mWinFlag);
             winText = view.findViewById(R.id.mWinText);
             time = view.findViewById(R.id.mTime);
@@ -141,6 +147,16 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         matchHolder.item4.setImageBitmap(getItem(participantStats.getItem4()));
         matchHolder.item5.setImageBitmap(getItem(participantStats.getItem5()));
         matchHolder.item6.setImageBitmap(getItem(participantStats.getItem6()));
+
+        matchHolder.layout.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                Intent intent = new Intent(v.getContext(), MatchActivity.class);
+                intent.putExtra("match", ArrayList.get(position));
+                v.getContext().getApplicationContext().startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -344,7 +360,7 @@ public class MatchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return String.valueOf(df.format(kp) + " KP");
     }
 
-    Bitmap getItem(int num)  {
+    Bitmap getItem(int num) {
         try {
             URL url = new URL(util.getItemIconURL() + num + ".png");
             Bitmap bitmap = BitmapFactory.decodeStream(url.openStream());
